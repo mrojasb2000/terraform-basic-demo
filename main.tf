@@ -1,8 +1,27 @@
 provider "aws" {
-    region = "${var.region}"
+    region = var.region
 }
 
-data "aws_ami" "ubuntu" {
+resource "aws_vpc" "lemontech_vpc" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_hostnames = true
+
+  tags = {
+    Name = "Lemontech VPC"
+  }
+}
+
+resource "aws_subnet" "lemontech_subnet" {
+  vpc_id     = aws_vpc.lemontech_vpc.id
+  cidr_block = "10.0.1.0/24"
+
+  tags = {
+    Name = "Lemontech Subnet"
+  }
+}
+
+
+/* data "aws_ami" "ubuntu" {
   most_recent = true
 
   filter {
@@ -62,4 +81,4 @@ resource "aws_security_group" "lemontech_sg" {
 resource "aws_key_pair" "key_pair" {
   key_name = "lemontech-key"
   public_key = "${file("./keys/aws-terraform.pub")}" 
-}
+} */
