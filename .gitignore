@@ -1,0 +1,9 @@
+# Terraform state file(s)
+*.tfstate
+*.tfstate.*
+
+# Terraform provider folder
+.terraform/
+
+# SSH keys
+keys/
