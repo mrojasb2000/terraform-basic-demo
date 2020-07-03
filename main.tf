@@ -79,6 +79,10 @@ resource "aws_route_table_association" "lemontech_route_table_association_3" {
   subnet_id      = aws_subnet.lemontech_subnet_3.id
   route_table_id = aws_route_table.lemontech_route_table.id
 }
+
+
+
+
 /* data "aws_ami" "ubuntu" {
   most_recent = true
 
