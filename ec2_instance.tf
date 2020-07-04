@@ -3,6 +3,7 @@ resource "aws_instance" "lemontech_server_1" {
     instance_type = "t2.micro"
     subnet_id = aws_subnet.lemontech_subnet_1.id
     associate_public_ip_address = true
+    vpc_security_group_ids = ["${aws_security_group.lemontech_security_group_1.id}", "${aws_security_group.lemontech_security_group_2.id}"]
 
     tags = {
       "Name" = "Lemontech Instance 1"
