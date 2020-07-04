@@ -6,5 +6,5 @@ resource "aws_key_pair" "lemontech_key_pair" {
 
 resource "aws_key_pair" "limonen_key_pair" {
   key_name   = "deployer_key"
-  public_key = "${file("./keys/lemontech.pem.pub")}"
+  public_key = file("./keys/lemontech.pem.pub")
 }
