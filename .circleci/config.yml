@@ -22,13 +22,13 @@ jobs:
          command: cat ~/.aws/credentials
       - run:
          name: Running Terraform init
-         command: cd terraform && terraform init
+         command: cd lab01 && terraform init
       - run:
          name: Running Terraform plan
-         command: cd terraform && terraform plan
+         command: cd lab01 && terraform plan
       - run:
          name: Running Terraform apply
-         command: cd terraform && terraform apply -auto-approve -lock=false
+         command: cd lab01 && terraform apply -auto-approve -lock=false
 workflows:
   version: 2
   build_and_deploy:
