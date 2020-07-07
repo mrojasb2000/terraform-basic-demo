@@ -1,14 +1,14 @@
 version: 2
 jobs:
-  build:
-    working_directory: ~/lemontech
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - run: echo "hello world"
+    build:
+        working_directory: ~/lemontech
+        docker:
+            - image: circleci/node:latest
+        steps:
+            - checkout
+            - run: echo "hello world"
 workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - build
+    version: 2
+    build_and_deploy:
+        jobs:
+            - build
