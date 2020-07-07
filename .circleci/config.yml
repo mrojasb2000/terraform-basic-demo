@@ -1,8 +1,36 @@
-version: 2.1
+version: 2
 jobs:
   build:
-    docker: 
-      - image: circleci/node:4.8.2 # the primary container, where your job's commands are run
+    working_directory: ~/lemontech
+    docker:
+      - image: circleci/node:latest
     steps:
-      - checkout # check out the code in the project directory
-      - run: echo "hello world" # run the `echo` command
+      - checkout
+      - run: echo "hello world"
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+deploy:
+    working_directory: ~/lemontech
+    docker:
+      - image: hashicorp/terraform
+    steps:
+      - checkout
+      - run: mkdir -p ~/.aws
+      - run:
+         name: Create credentials file
+         command: echo -e "[default]\naws_access_key_id        = $AWS_ACCESS_KEY_ID\naws_secret_access_key    = $AWS_SECRET_ACCESS_KEY\n\n" > ~/.aws/credentials
+      - run:
+         name: Show credentials file
+         command: cat ~/.aws/credentials
+      - run:
+         name: Running Terraform init
+         command: cd terraform && terraform init
+      - run:
+         name: Running Terraform plan
+         command: cd terraform && terraform plan
+      - run:
+         name: Running Terraform apply
+         command: cd terraform && terraform apply -auto-approve -lock=false
