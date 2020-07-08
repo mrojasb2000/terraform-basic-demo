@@ -18,81 +18,12 @@ chown "$USER":"$USER" /home/"$USER"/.docker -R
 chmod g+rwx "$HOME/.docker" -R
 chmod 666 /var/run/docker.sock
 
-mkdir -p /home/ec2-user/limoneno
-mkdir -p /home/ec2-user/limoneno/.docker
-chown -R ec2-user:ec2-user /home/ec2-user/limoneno
 
-cd /home/ec2-user/limoneno
-
-tee -a docker-compose.yml <<EOF
-version: '3.0'
-services:
-  mysql:
-    image: mysql-limoneno
-    build:
-      context: ./.docker
-      dockerfile: mysql.Dockerfile
-    container_name: limoneno-database-develop
-    volumes:
-      - limoneno-database-develop:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: lemontech
-    ports:
-      - 3307:3306
-    networks:
-      webapp:
-        ipv4_address: 26.0.0.2
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: limoneno-phpmyadmin-develop
-    environment:
-      PMA_HOST: mysql
-    links:
-      - "mysql:mysql"
-    ports:
-      - 7000:80
-    networks:
-      webapp:
-        ipv4_address: 26.0.0.3
-  redis:
-    image: redis
-    ports:
-      - "16379:6379"
-    networks:
-      webapp:
-        ipv4_address: 26.0.0.4
-volumes:
-  limoneno-database-develop:
-networks:
-  webapp:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 26.0.0.0/24
-EOF
-
-cd /home/ec2-user/limoneno/.docker
-
-tee -a my.cnf <<EOF
-[mysqld]
-pid-file        = /var/run/mysqld/mysqld.pid
-socket          = /var/run/mysqld/mysqld.sock
-datadir         = /var/lib/mysql
-secure-file-priv= NULL
-# Disabling symbolic-links is recommended to prevent assorted security risks
-symbolic-links=0
-
-# Custom config should go here
-!includedir /etc/mysql/conf.d/
-
-#Login method
-default-authentication-plugin=mysql_native_password
-EOF
-
-tee -a mysql.Dockerfile <<EOF
-FROM mysql:5.7
-COPY ./my.cnf /etc/mysql/my.cnf
-EOF
-
-cd /home/ec2-user/limoneno
-docker-compose up -d
+yum install -y gcc openssl-devel libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel ncurses-devel ruby-devel gcc-c++ jq git
+gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+curl -sSL https://get.rvm.io | bash -s stable --ruby
+source /usr/local/rvm/scripts/rvm
+rvm list known
+rvm install 2.6.3
+rvm use 2.3.6
+ruby -v

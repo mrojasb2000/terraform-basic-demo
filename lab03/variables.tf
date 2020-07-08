@@ -25,6 +25,6 @@ variable "public_ip_address" {
 variable "subnet_private_ip" {
     description = "Subnet private ip address list"
     type = list(string)
-    default = ["10.0.1.50","10.0.1.51","10.0.1.52"]
+    default = ["10.0.2.15","10.0.2.25","10.0.2.35"]
 }
 
