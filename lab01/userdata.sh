@@ -87,6 +87,9 @@ symbolic-links=0
 
 #Login method
 default-authentication-plugin=mysql_native_password
+
+#Bind address
+bind-address = 0.0.0.0
 EOF
 
 tee -a mysql.Dockerfile <<EOF

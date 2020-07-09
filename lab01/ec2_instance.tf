@@ -6,7 +6,7 @@ resource "aws_instance" "lemontech_server_1" {
     subnet_id = aws_subnet.lemontech_subnet_1.id
     vpc_security_group_ids = ["${aws_security_group.lemontech_security_group_1.id}", "${aws_security_group.lemontech_security_group_2.id}", "${aws_security_group.lemontech_db_security_group.id}"]
     private_ip = element(var.subnet_private_ip, count.index)
-    key_name = aws_key_pair.lemontech_key_pair.id
+    key_name = "lemontech_key"
     user_data = file("userdata.sh")
 
     tags = {

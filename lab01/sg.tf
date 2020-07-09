@@ -81,12 +81,12 @@ resource "aws_security_group" "lemontech_db_security_group" {
     cidr_blocks = ["0.0.0.0/0"] # Allow all traffic
   }
 
-  /* ingress {
-    from_port   = 16379
-    to_port     = 6379
+  ingress {
+    from_port   = 3307
+    to_port     = 3307
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Allow all traffic
-  } */
+  } 
 
   # Allow outgoing traffic to anywhere
   egress {
